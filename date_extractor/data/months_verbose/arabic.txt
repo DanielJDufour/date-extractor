@@ -1,0 +1,145 @@
+# from https://en.wikipedia.org/wiki/Arabic_names_of_calendar_months
+# month name > month number
+
+# Levant and Mesopotamia
+Kānūn ath-Thānī > 1
+كانون الثاني > 1
+كانون ثاني > 1
+Shubāṭ > 2
+شباط > 2
+Ādhār > 3
+آذار > 3
+Nīsān > 4
+نيسان > 4
+Ayyār > 5
+أيار > 5
+Ḥazīrān > 6
+Ḥuzayrān > 6
+حزيران > 6
+Tammūz > 7
+تموز > 7
+Āb > 8
+آب > 8
+Aylūl > 9
+أيلول > 9
+Tishrīn al-Awwal > 10
+تشرين الأول > 10
+Tishrīn ath-Thānī > 11
+تشرين الثاني > 11
+تشرين ثاني > 11
+Kānūn al-Awwal > 12
+كانون الأول > 12
+
+#Egypt, Sudan, Arabia (All Gulf Countries)
+Yanāyir > 1
+يناير > 1
+Fibrāyir > 2
+فبراير > 2
+Māris > 3
+مارس > 3
+Abrīl > 4
+Ibrīl > 4
+أبريل > 4
+إبريل > 4
+Māyū > 5
+مايو > 5
+Yūniyū > 6
+Yūniyya > 6
+يونيو > 6
+يونية > 6
+Yūliyū > 7
+Yūliyya > 7
+يوليو > 7
+يولية > 7
+Aghusṭus > 8
+أغسطس > 8
+Sibtambir > 9
+سبتمبر > 9
+Uktūbar > 10
+أكتوبر > 10
+Nūfambir > 11
+نوفمبر > 11
+Dīsambir > 12
+ديسمبر > 12
+
+# Libya (1969–2011)
+# This shouldn't be taken as an endorsement of these names
+Ayy an-Nār > 1
+أي النار > 1
+an-Nuwwār > 2
+النوار > 2
+ar-Rabī‘ > 3
+الربيع > 3
+aṭ-Ṭayr > 4
+الطير > 4
+al-Mā’ > 5
+الماء > 5
+aṣ-Ṣayf > 6
+الصيف > 6
+Nāṣir > 7
+ناصر > 7
+Hānībāl > 8
+هانيبال > 8
+al-Fātiḥ > 9
+الفاتح > 9
+ath-Thumūr > 10
+at-Tumūr > 10
+التمور > 10
+الثمور > 10
+al-Ḥarth > 11
+الحرث > 11
+al-Kānūn > 12
+الكانون > 12
+
+#Algeria and Tunisia
+Jānfī > 1
+جانفي > 1
+Fīfrī > 2
+فيفري > 2
+Mārs > 3
+Māris > 3
+مارس > 3
+Afrīl > 4
+أفريل > 4
+Māy > 5
+ماي > 5
+Juwān > 6
+جوان > 6
+Juwīliyya > 7
+جويلية > 7
+Ūt > 8
+أوت > 8
+Sibtambir > 9
+سبتمبر > 9
+Uktūbir > 10
+أكتوبر > 10
+Nūfambir > 11
+نوفمبر > 11
+Dīsambir > 12
+ديسمبر > 12
+
+#Morocco
+Yannāyir > 1
+يناير > 1
+Fibrāyir > 2
+فبراير > 2
+Mārs > 3
+مارس > 3
+Ibrīl > 4
+أبريل > 4
+Māyū > 5
+مايو > 5
+Yūniyū > 6
+يونيو > 6
+Yūliyū > 7
+يوليوز > 7
+Ghusht > 8
+غشت > 8
+Shutambir > 9
+شتمبر > 9
+Uktūbir > 10
+أكتوبر > 10
+Nuwanbir > 11
+نونبر > 11
+Dujambir > 12
+دجمبر > 12
