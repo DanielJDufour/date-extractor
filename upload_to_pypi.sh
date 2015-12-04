@@ -22,3 +22,6 @@ git commit
 git tag $version -m "Adds a tag so that we can put this on PyPI."
 
 git push --tags origin master
+
+python setup.py register -r pypi
+python setup.py sdist upload -r pypi
