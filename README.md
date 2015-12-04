@@ -21,3 +21,9 @@ dates = extract_dates(text)
 | French |
 | Sorani (Kurdish) |
 | Turkish |
+
+# Testing
+To test the package run
+```
+python -m unittest date_extractor.tests.test
+```
