@@ -67,7 +67,7 @@ def generate_patterns():
     #merge months as regular name, abbreviation and number all together
     # makes sure that it doesn't pull out 3 as the month in January 23, 2015
     #patterns['month'] = u'(?<! \d)(?P<month>' + patterns['months_verbose'] + u'|' + patterns['months_abbreviated'] + u'|' + patterns['months_as_numbers'] + u"(?:\/" + patterns['months_verbose'] + u")?" + u')'
-    patterns['month'] = u'(?<! \d)(?P<month>' + patterns['months_verbose'] + u'|' + patterns['months_abbreviated'] + u'|' + patterns['months_as_numbers'] + u')' + u"(?:" + "/" + patterns['months_verbose'] + u")?"
+    patterns['month'] = u'(?<! \d)(?P<month>' + patterns['months_verbose'] + u'|' + patterns['months_abbreviated'] + u'|' + patterns['months_as_numbers'] + u')' + u"(?:" + "/" + patterns['months_verbose'] + u")?" + u"(?!\d-\d{1,2}T)"
 
     # matches the year as two digits or four
     # tried to match the four digits first
@@ -88,7 +88,8 @@ def generate_patterns():
  
     patterns['mdy'] = u"(?P<mdy>" + patterns['month'].replace("month", "month_mdy") + patterns['punctuation'].replace("punctuation","punctuation_mdy") + patterns['day'].replace("day","day_mdy") + "(?:" + patterns['punctuation_second'].replace("punctuation","punctuation_mdy") + "|, )" + patterns['year'].replace("mdy","year_mdy") + u")" + u"(?!-\d{1,2})"
 
-    patterns['ymd'] = u"(?<![\dA-Za-z])" + u"(?P<ymd>" + patterns['year'].replace("year","year_ymd") + patterns['punctuation'].replace("punctuation","punctuation_ymd") + patterns['month'].replace("month","month_ymd") + patterns['punctuation_second'].replace("punctuation","punctuation_ymd") + patterns['day'].replace("day","day_ymd") + u")" + u"(?!-\d{1,2}-\d{1,2})(?![\dA-Za-z])"
+    #we don't include T in the exclusion at end because sometimes T comes before hours and minutes
+    patterns['ymd'] = u"(?<![\dA-Za-z])" + u"(?P<ymd>" + patterns['year'].replace("year","year_ymd") + patterns['punctuation'].replace("punctuation","punctuation_ymd") + patterns['month'].replace("month","month_ymd") + patterns['punctuation_second'].replace("punctuation","punctuation_ymd") + patterns['day'].replace("day","day_ymd") + u")" + u"(?!-\d{1,2}-\d{1,2})(?![\dABCDEFGHIJKLMNOPQRSUVWXYZabcdefghijklmnopqrsuvwxyz])"
    
     patterns['my'] = u"(?P<my>" + patterns['month'].replace("month","month_my") + patterns['punctuation_nocomma'] + patterns['year'].replace("year","year_my") + u")"
 
@@ -206,7 +207,7 @@ def getFirstDateFromText(text):
     #print "finishing getFirstDateFromText"
 
 # the date of a webpage, like a blog or article, will often be the first date mentioned
-g = getPageDate = getFirstDateFromText
+extract_date = g = getPageDate = getFirstDateFromText
 
 
 def isDefinitelyNotDate(text):
