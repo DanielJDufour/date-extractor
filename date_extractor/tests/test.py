@@ -17,6 +17,11 @@ class TestStringMethods(unittest.TestCase):
         """.decode("utf-8")
         self.assertEqual(str(g(text)),'2015-11-21 00:00:00+00:00')
 
+    def test_year(self):
+        text = """12/16/2010 9:09 AM ET\nA Run Like No Othe"""
+        self.assertEqual(str(g(text)), '2010-12-16 00:00:00+00:00')
+        
+
 
 if __name__ == '__main__':
     unittest.main()
