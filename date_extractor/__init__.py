@@ -93,7 +93,10 @@ def generate_patterns():
    
     patterns['my'] = u"(?P<my>" + patterns['month'].replace("month","month_my") + patterns['punctuation_nocomma'] + patterns['year'].replace("year","year_my") + u")"
 
-    patterns['date'] = u"(?P<date>" + patterns['mdy'] + "|" + patterns['dmy'] + "|" + patterns['ymd'] + "|" + patterns['my'] + u")"
+    # just the year
+    patterns['y'] = u"(?P<y>" + patterns['year'].replace("year","year_y") + u")"
+
+    patterns['date'] = u"(?P<date>" + patterns['mdy'] + "|" + patterns['dmy'] + "|" + patterns['ymd'] + "|" + patterns['my'] + "|" + patterns['y'] + u")"
 
 global patterns
 generate_patterns()
@@ -146,8 +149,9 @@ def extract_dates(text, sorting=None):
     completes = []
     partials = []
 
+    #print "about to finditer"
     for match in re.finditer(re.compile(patterns['date'], flags), text):
-    #    print "match is", match.groupdict()
+        #print "\n\nmatch is", match.groupdict()
         # this goes through the dictionary and removes empties and changes the keys back, e.g. from month_myd to month
         match = dict((k.split("_")[0], num(v)) for k, v in match.groupdict().iteritems() if num(v))
 
@@ -200,10 +204,11 @@ def getFirstDateFromText(text):
         #print "\nmatch is", match.group(0)
         if not isDefinitelyNotDate(match.group(0)):
             match = dict((k.split("_")[0], num(v)) for k, v in match.groupdict().iteritems() if num(v))
-            #print "match is", match
+            #print "\tmatch is", match
             if all(k in match for k in ("day","month", "year")):
-                #print "returning getFirstDateFromText"
                 return datetime(normalize_year(match['year']),int(match['month']),int(match['day']), tzinfo=tzinfo)
+            elif "year" in match and "month" not in match and "day" not in match:
+                return datetime(normalize_year(match['year']), 1, 1, tzinfo=tzinfo)
     #print "finishing getFirstDateFromText"
 
 # the date of a webpage, like a blog or article, will often be the first date mentioned

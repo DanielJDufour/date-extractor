@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
   name = 'date-extractor',
   packages = ['date_extractor'],
-  version = '1.7',
+  version = '1.8',
   description = 'Extract dates from text',
   author = 'Daniel J. Dufour',
   author_email = 'daniel.j.dufour@gmail.com',
