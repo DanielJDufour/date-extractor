@@ -203,7 +203,8 @@ def getFirstDateFromText(text):
             #print "match is", match
             if all(k in match for k in ("day","month", "year")):
                 #print "returning getFirstDateFromText"
-                return datetime(normalize_year(match['year']),int(match['month']),int(match['day']), tzinfo=tzinfo)
+                try: return datetime(normalize_year(match['year']),int(match['month']),int(match['day']), tzinfo=tzinfo)
+                except ValueError as e: print e
     #print "finishing getFirstDateFromText"
 
 # the date of a webpage, like a blog or article, will often be the first date mentioned
