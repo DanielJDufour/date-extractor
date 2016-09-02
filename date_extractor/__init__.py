@@ -1,6 +1,9 @@
+from sys import version_info
+python_version = version_info.major
+
 from collections import Counter
 from datetime import date, datetime
-import enumerations
+from . import enumerations
 import pytz
 import re
 
@@ -56,7 +59,7 @@ def generate_patterns():
 
             # check to see if pattern is in unicode
             # if it's not convert it
-            if isinstance(pattern, str):
+            if python_version == 2 and isinstance(pattern, str):
                 pattern = pattern.decode("utf-8")
 
             patterns[key] = pattern
@@ -142,7 +145,7 @@ def extract_dates(text, sorting=None):
     # convert to unicode if the text is in a bytestring
     # we conver to unicode because it is easier to work with
     # and it handles text in foreign languages much better
-    if isinstance(text, str):
+    if python_version == 2 and isinstance(text, str):
         text = text.decode('utf-8')
 
     matches = []
@@ -191,24 +194,27 @@ def extract_dates(text, sorting=None):
 e=extract_dates
 
 def getFirstDateFromText(text):
-    #print "starting getFirstDateFromText"
+    #print("starting getFirstDateFromText")
     global patterns
 
     # convert to unicode if the text is in a bytestring
     # we conver to unicode because it is easier to work with
     # and it handles text in foreign languages much better
-    if isinstance(text, str):
+    if python_version == 2 and isinstance(text, str):
         text = text.decode('utf-8')
 
     for match in re.finditer(re.compile(patterns['date'], flags), text):
-        #print "\nmatch is", match.group(0)
+        #print("\nmatch is", match.group(0))
         if not isDefinitelyNotDate(match.group(0)):
-            match = dict((k.split("_")[0], num(v)) for k, v in match.groupdict().iteritems() if num(v))
+            if python_version == 2:
+                match = dict((k.split("_")[0], num(v)) for k, v in match.groupdict().iteritems() if num(v))
+            elif python_version == 3:
+                match = dict((k.split("_")[0], num(v)) for k, v in match.groupdict().items() if num(v))
             #print "\tmatch is", match
             if all(k in match for k in ("day","month", "year")):
                 #print "returning getFirstDateFromText"
                 try: return datetime(normalize_year(match['year']),int(match['month']),int(match['day']), tzinfo=tzinfo)
-                except ValueError as e: print e
+                except ValueError as e: print(e)
             elif "year" in match and "month" not in match and "day" not in match:
                 return datetime(normalize_year(match['year']), 1, 1, tzinfo=tzinfo)
     #print "finishing getFirstDateFromText"
