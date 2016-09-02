@@ -27,3 +27,6 @@ To test the package run
 ```
 python -m unittest date_extractor.tests.test
 ```
+
+# Versions
+Works on Python 2 and 3!

@@ -5,3 +5,9 @@ setup.py
 date_extractor/__init__.py
 date_extractor/arabic.py
 date_extractor/enumerations.py
+date_extractor/data/months_verbose/arabic.txt
+date_extractor/data/months_verbose/french.txt
+date_extractor/data/months_verbose/sorani.txt
+date_extractor/data/months_verbose/turkish.txt
+date_extractor/tests/__init__.py
+date_extractor/tests/test.py
