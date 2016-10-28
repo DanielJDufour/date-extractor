@@ -89,8 +89,10 @@ current_year = date.today().year
 
 current_year_abbreviated = int(str(current_year)[-2:])
 
+_years_as_numbers = range(1900, current_year+1)
 if python_version == 2:
-    years = map(unicode,range(1990, current_year+1)) + [u"15",u"16"] + map(a,range(1990, current_year+1))
+    _years_as_strings = map(unicode,_years_as_numbers) + map(a,_years_as_numbers)
 elif python_version == 3:
-    years = list(map(str,range(1990, current_year+1))) + [u"15",u"16"] + list(map(a,range(1990, current_year+1)))
+    _years_as_strings = list(map(str,_years_as_numbers)) + list(map(a,_years_as_numbers))
+years = _years_as_strings + [y[-2:] for y in _years_as_strings]
 

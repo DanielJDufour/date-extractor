@@ -54,7 +54,7 @@ def generate_patterns():
 
         # ignore inherited methods that come with most python modules
         # also ignore short variables of 1 length
-        if not key.startswith("__") and len(key) > 1 and isinstance(getattr(enumerations, key), list):
+        if not key.startswith("_") and len(key) > 1 and isinstance(getattr(enumerations, key), list):
             pattern = "(?:" + "|".join(getattr(enumerations, key)) + ")"
 
             # check to see if pattern is in unicode
