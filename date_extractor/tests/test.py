@@ -8,6 +8,9 @@ from date_extractor import *
 
 class TestStringMethods(unittest.TestCase):
 
+    def test_normalization(self):
+        self.assertEqual(str(g("12/23/09")), "2009-12-23 00:00:00+00:00")
+
     def test_year(self):
         self.assertEqual(str(g("2015-11-21")),'2015-01-01 00:00:00+00:00')
 

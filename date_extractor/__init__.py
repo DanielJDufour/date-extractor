@@ -28,18 +28,24 @@ def num(text):
 
 # normalizes year to four digits
 # e.g., 90s to 1990 and 11 to 2011
+
+current_year = date.today().year
+next_year_short = int(str(current_year+1)[2:])
+previous_century_short = str(current_year-100)[0:2]
+current_century_short = str(current_year)[0:2]
 def normalize_year(y):
-    current_year = date.today().year
 
     # we run int(y) to convert to number just in case arabic
     y_str = str(int(y)).rstrip('s').rstrip("'")
-
-    if len(y_str) == 2:
+    len_y_str = len(y_str)
+    if 1 <= len_y_str <= 2:
         y_int = int(y_str)
-        if y_int > int(str(current_year+1)[2:]):
-            y_int = int(str(current_year-100)[0:2] + y_str)
+        if len_y_str == 1:
+            y_str = "0" + y_str
+        if y_int > next_year_short:
+            y_int = int(previous_century_short + y_str)
         else:
-            y_int = int(str(current_year)[0:2] + y_str)
+            y_int = int(current_century_short + y_str)
         return y_int
     else:
         return int(y)
@@ -99,7 +105,9 @@ def generate_patterns():
     # just the year
     patterns['y'] = u"(?P<y>" + patterns['year'].replace("year","year_y") + u")"
 
-    patterns['date'] = u"(?P<date>" + patterns['mdy'] + "|" + patterns['dmy'] + "|" + patterns['ymd'] + "|" + patterns['my'] + "|" + patterns['y'] + u")"
+    patterns['date'] = date = u"(?P<date>" + patterns['mdy'] + "|" + patterns['dmy'] + "|" + patterns['ymd'] + "|" + patterns['my'] + "|" + patterns['y'] + u")"
+
+    patterns['date_compiled'] = re.compile(date, flags)
 
 global patterns
 generate_patterns()
@@ -203,7 +211,7 @@ def getFirstDateFromText(text):
     if python_version == 2 and isinstance(text, str):
         text = text.decode('utf-8')
 
-    for match in re.finditer(re.compile(patterns['date'], flags), text):
+    for match in re.finditer(patterns['date_compiled'], text):
         #print("\nmatch is", match.group(0))
         if not isDefinitelyNotDate(match.group(0)):
             if python_version == 2:
