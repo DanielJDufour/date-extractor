@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/DanielJDufour/location-extractor.svg?branch=master)](https://travis-ci.org/DanielJDufour/location-extractor)
+[![Build Status](https://travis-ci.org/DanielJDufour/date-extractor.svg?branch=master)](https://travis-ci.org/DanielJDufour/date-extractor)
 
-[![Requirements Status](https://requires.io/github/DanielJDufour/location-extractor/requirements.svg?branch=master)](https://requires.io/github/DanielJDufour/location-extractor/requirements/?branch=master)
+[![Requirements Status](https://requires.io/github/DanielJDufour/date-extractor/requirements.svg?branch=master)](https://requires.io/github/DanielJDufour/date-extractor/requirements/?branch=master)
 
 [![Hex.pm](https://img.shields.io/hexpm/l/plug.svg?maxAge=2592000?style=plastic)]()
 
