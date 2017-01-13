@@ -20,7 +20,7 @@ class TestStringMethods(unittest.TestCase):
             try:
                 self.assertEqual(str(g(text)),'2015-11-21 00:00:00+00:00')
             except Exception as e:
-                print "FAILED ON text:", [text]
+                print("FAILED ON text:", [text])
                 raise e
         elif python_version == 3:
             text = "٢١ نوفمبر ٢٠١٥"
