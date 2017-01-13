@@ -18,6 +18,7 @@ dates = extract_dates(text)
 | Languages Supported |
 | ------------------- |
 | Arabic |
+| English |
 | French |
 | Sorani (Kurdish) |
 | Turkish |
