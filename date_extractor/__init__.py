@@ -175,7 +175,10 @@ def extract_dates(text, sorting=None):
     for match in re.finditer(re.compile(patterns['date'], flags), text):
         #print "\n\nmatch is", match.groupdict()
         # this goes through the dictionary and removes empties and changes the keys back, e.g. from month_myd to month
-        match = dict((k.split("_")[0], num(v)) for k, v in match.groupdict().iteritems() if num(v))
+        if python_version == 2:
+            match = dict((k.split("_")[0], num(v)) for k, v in match.groupdict().iteritems() if num(v))
+        elif python_version == 3:
+            match = dict((k.split("_")[0], num(v)) for k, v in match.groupdict().items() if num(v))
 
         if all(k in match for k in ("day","month", "year")): 
             completes.append(match)
