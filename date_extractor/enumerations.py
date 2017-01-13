@@ -36,6 +36,7 @@ for language in ["arabic"]:
         elif python_version == 3:
             months_verbose += [line.strip().split(">")[0].strip() for line in f.read().split("\n") if line and not line.startswith("#")]
 
+months_last_three_letters = [month[-3:] if len(month[-3:]) == 3 else " " + month[-2:] for month in months_verbose]
 
 months_abbreviated = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"] 
 
@@ -89,10 +90,15 @@ current_year = date.today().year
 
 current_year_abbreviated = int(str(current_year)[-2:])
 
-_years_as_numbers = range(1900, current_year+1)
+_years_as_numbers = range(1900, current_year+200)
 if python_version == 2:
     _years_as_strings = map(unicode,_years_as_numbers) + map(a,_years_as_numbers)
 elif python_version == 3:
     _years_as_strings = list(map(str,_years_as_numbers)) + list(map(a,_years_as_numbers))
 years = _years_as_strings + [y[-2:] for y in _years_as_strings]
 
+nots = []
+for y in range(int(str(current_year+2)[-2:]), 85):
+    for m in range(1, 10):
+        for d in range(1, 10):
+            nots.append(str(y) + str(m) + str(d))

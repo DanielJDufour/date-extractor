@@ -75,35 +75,37 @@ def generate_patterns():
 
     #merge months as regular name, abbreviation and number all together
     # makes sure that it doesn't pull out 3 as the month in January 23, 2015
-    #patterns['month'] = u'(?<! \d)(?P<month>' + patterns['months_verbose'] + u'|' + patterns['months_abbreviated'] + u'|' + patterns['months_as_numbers'] + u"(?:\/" + patterns['months_verbose'] + u")?" + u')'
     patterns['month'] = u'(?<! \d)(?P<month>' + patterns['months_verbose'] + u'|' + patterns['months_abbreviated'] + u'|' + patterns['months_as_numbers'] + u')' + u"(?:" + "/" + patterns['months_verbose'] + u")?" + u"(?!\d-\d{1,2}T)"
-
-    # matches the year as two digits or four
-    # tried to match the four digits first
-    # (?!, \d{2,4}) makes sure it doesn't pick out 23 as the year in January 23, 2015
-    patterns['year'] = u"(?P<year>" + patterns['years'] + u")"
 
     # spaces or punctuation separatings days, months and years
     # blank space, comma, dash, period, backslash
     # todo: write code for forward slash, an escape character
     #patterns['punctuation'] = u"(?P<punctuation>, |:| |,|-|\.|\/|)"
     patterns['punctuation'] = u"(?:, |:| |,|-|\.|\/|)"
+    patterns['punctuation_fixed_width'] = u"(?: |,|;|-|\.|\/)"
     patterns['punctuation_nocomma'] = u"(?: |-|\.|\/)"
     #patterns['punctuation_second'] = u"\g<punctuation>"
     patterns['punctuation_second'] = patterns['punctuation']
-    
+
+    # matches the year as two digits or four
+    # tried to match the four digits first
+    # (?!, \d{2,4}) makes sure it doesn't pick out 23 as the year in January 23, 2015
+    patterns['year'] = u"(?P<year>" + patterns['years'] + u")"
 
     patterns['dmy'] = u"(?P<dmy>" + patterns['day'].replace("day", "day_dmy") + patterns['punctuation'].replace("punctuation","punctuation_dmy") + patterns['month'].replace("month","month_dmy") + patterns['punctuation_second'].replace("punctuation","punctuation_dmy") + patterns['year'].replace("year", "year_dmy") + u")" + u"(?!-\d{1,2})"
+
+    patterns['dmy'] = u"(?<!\d)" + u"(?P<dmy>" + patterns['day'].replace("day", "day_dmy") + patterns['punctuation'].replace("punctuation","punctuation_dmy") + patterns['month'].replace("month","month_dmy") + patterns['punctuation_second'].replace("punctuation","punctuation_dmy") + patterns['year'].replace("year", "year_dmy") + u")" + u"(?!-\d{1,2})"
  
-    patterns['mdy'] = u"(?P<mdy>" + patterns['month'].replace("month", "month_mdy") + patterns['punctuation'].replace("punctuation","punctuation_mdy") + patterns['day'].replace("day","day_mdy") + "(?:" + patterns['punctuation_second'].replace("punctuation","punctuation_mdy") + "|, )" + patterns['year'].replace("mdy","year_mdy") + u")" + u"(?!(-|/)\d{1,2})"
+    patterns['mdy'] = u"(?P<mdy>" + patterns['month'].replace("month", "month_mdy") + patterns['punctuation'].replace("punctuation","punctuation_mdy") + patterns['day'].replace("day","day_mdy") + "(?:" + patterns['punctuation_second'].replace("punctuation","punctuation_mdy") + "|, )" + patterns['year'].replace("mdy","year_mdy") + u")" + u"(?!(-|/)\d{1,2})" + "(?<!" + patterns['nots'] + ")"
 
     #we don't include T in the exclusion at end because sometimes T comes before hours and minutes
-    patterns['ymd'] = u"(?<![\dA-Za-z])" + u"(?P<ymd>" + patterns['year'].replace("year","year_ymd") + patterns['punctuation'].replace("punctuation","punctuation_ymd") + patterns['month'].replace("month","month_ymd") + patterns['punctuation_second'].replace("punctuation","punctuation_ymd") + patterns['day'].replace("day","day_ymd") + u")" + u"(?!-\d{1,2}-\d{1,2})(?![\dABCDEFGHIJKLMNOPQRSUVWXYZabcdefghijklmnopqrsuvwxyz])"
+    patterns['ymd'] = u"(?<![\dA-Za-z])" + u"(?P<ymd>" + patterns['year'].replace("year","year_ymd") + patterns['punctuation'].replace("punctuation","punctuation_ymd") + patterns['month'].replace("month","month_ymd") + patterns['punctuation_second'].replace("punctuation","punctuation_ymd") + patterns['day'].replace("day","day_ymd") + u")" + u"(?!-\d{1,2}-\d{1,2})(?![\dABCDEFGHIJKLMNOPQRSUVWXYZabcdefghijklmnopqrsuvwxyz])" + "(?<!" + patterns['nots'] + ")"
    
-    patterns['my'] = u"(?P<my>" + patterns['month'].replace("month","month_my") + patterns['punctuation_nocomma'] + patterns['year'].replace("year","year_my") + u")"
+    patterns['my'] = u"(?<!32 )" + u"(?P<my>" + patterns['month'].replace("month","month_my") + patterns['punctuation_nocomma'] + patterns['year'].replace("year","year_my") + u")"
 
     # just the year
-    patterns['y'] = u"(?P<y>" + patterns['year'].replace("year","year_y") + u")"
+    # avoiding 32 december 2017
+    patterns['y'] = "(?<!\d)"  + "(?<!" + patterns['months_last_three_letters'] + patterns['punctuation_fixed_width'] + ")" +  u"(?P<y>" + patterns['year'].replace("year","year_y") + u")" + "(?!" + patterns['punctuation_fixed_width'] + patterns['months_abbreviated'] + ")"
 
     patterns['date'] = date = u"(?P<date>" + patterns['mdy'] + "|" + patterns['dmy'] + "|" + patterns['ymd'] + "|" + patterns['my'] + "|" + patterns['y'] + u")"
 
@@ -112,21 +114,30 @@ def generate_patterns():
 global patterns
 generate_patterns()
 
-def date_from_dict(match):
-    month = match['month']
-    if month.isdigit():
+def datetime_from_dict(match):
+    month = match.get('month', 1)
+    if isinstance(month, int):
+        pass
+    elif month.isdigit():
         month = int(month)
     else:
         month = month_to_number[month.title()]
 
     try:
-        day = int(match.group("day"))
+        day = int(match.get("day", 1))
     except Exception as e:
         #print "exception is", e
-        day = 1
+        pass
 
     try:
-        return datetime(int(match.group("year")), month, day, tzinfo=tzinfo)
+        year = normalize_year(match["year"])
+        #print "year", year 
+    except Exception as e:
+        #print e
+        pass
+
+    try:
+        return datetime(year, month, day, tzinfo=tzinfo)
     except Exception as e:
         #print e
         pass
@@ -182,23 +193,20 @@ def extract_dates(text, sorting=None):
   
     # convert completes and partials and return list ordered by:
     # complete/partial, most common, most recent
-    for d in completes:
-      try:
-        #print datetime(normalize_year(d['year']),int(d['month']),int(d['day']))  
-        pass
-      except Exception as e:
-        pass
-        #print d['year'], d['month'], d['day']
-    completes = [datetime(normalize_year(d['year']),int(d['month']),int(d['day'])) for d in completes]
-
+    results = []
+    for d in completes + partials:
+        try:
+            results.append(datetime_from_dict(d))
+        except ValueError as e:
+            pass
 
     if sorting:
-        counter = Counter(completes)
-        completes = remove_duplicates(sorted(completes, key = lambda x: (counter[x], x.toordinal()), reverse=True))
+        counter = Counter(results)
+        results = remove_duplicates(sorted(results, key = lambda x: (counter[x], x.toordinal()), reverse=True))
 
     #average_date = mean([d for d in completes])
 
-    return completes
+    return results
 e=extract_dates
 
 def getFirstDateFromText(text):
@@ -213,18 +221,13 @@ def getFirstDateFromText(text):
 
     for match in re.finditer(patterns['date_compiled'], text):
         #print("\nmatch is", match.group(0))
+        #print("\nmatch.index is", ([item for item in match.groupdict().items() if item[1]]))
         if not isDefinitelyNotDate(match.group(0)):
             if python_version == 2:
                 match = dict((k.split("_")[0], num(v)) for k, v in match.groupdict().iteritems() if num(v))
             elif python_version == 3:
                 match = dict((k.split("_")[0], num(v)) for k, v in match.groupdict().items() if num(v))
-            #print "\tmatch is", match
-            if all(k in match for k in ("day","month", "year")):
-                #print "returning getFirstDateFromText"
-                try: return datetime(normalize_year(match['year']),int(match['month']),int(match['day']), tzinfo=tzinfo)
-                except ValueError as e: print(e)
-            elif "year" in match and "month" not in match and "day" not in match:
-                return datetime(normalize_year(match['year']), 1, 1, tzinfo=tzinfo)
+            return datetime_from_dict(match)
     #print "finishing getFirstDateFromText"
 
 # the date of a webpage, like a blog or article, will often be the first date mentioned

@@ -17,7 +17,11 @@ class TestStringMethods(unittest.TestCase):
     def test_arabic(self):
         if python_version == 2:
             text = "٢١ نوفمبر ٢٠١٥".decode('utf-8')
-            self.assertEqual(str(g(text)),'2015-11-21 00:00:00+00:00')
+            try:
+                self.assertEqual(str(g(text)),'2015-11-21 00:00:00+00:00')
+            except Exception as e:
+                print "FAILED ON text:", [text]
+                raise e
         elif python_version == 3:
             text = "٢١ نوفمبر ٢٠١٥"
             self.assertEqual(str(g(text)),'2015-11-21 00:00:00+00:00')
@@ -43,6 +47,28 @@ class TestStringMethods(unittest.TestCase):
     def test_mdyt(self):
         text = "9/1/99 22:00"
         self.assertEqual(str(g(text)), "1999-09-01 00:00:00+00:00")
+
+
+    def test_future_dates(self):
+        source_expected = [
+            ('can you find correct date here 2033', '2033-01-01 00:00:00+00:00'),
+            ('can you find correct date here june 2033', '2033-06-01 00:00:00+00:00'),
+            ('can you find correct date here 2 june 2033', '2033-06-02 00:00:00+00:00'),
+            ('can you find correct date here 12 january 2018', '2018-01-12 00:00:00+00:00'),
+            ('can you find correct date here 1 january 2018', '2018-01-01 00:00:00+00:00'),
+            ('can you find correct date here 31 april 2017', 'None'),
+            ('can you find correct date here 32 december 2017', 'None')
+        ]
+
+        for source, expected in source_expected:
+            #print "sourece:", source
+            extracted_as_list = (extract_dates(source) or [None])[0]
+            #print "extracted_as_list:", extracted_as_list
+            self.assertEqual(str(extracted_as_list), expected)
+
+            extracted_as_single = extract_date(source)
+            #print "extracted_as_single:", extracted_as_single
+            self.assertEqual(str(extracted_as_single), expected)
 
 
 if __name__ == '__main__':
