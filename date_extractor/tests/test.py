@@ -8,10 +8,40 @@ from date_extractor import *
 
 class TestStringMethods(unittest.TestCase):
 
+    def test_with_hours(self):
+        text = "January 4, 2015 17:47"
+        print "text:", text
+        dates = extract_dates(text, debug=True)
+        self.assertEqual(len(dates), 1)
+        self.assertEqual(str(dates[0]), "2015-01-04 00:00:00+00:00")
+
+
+    # if just a bunch of random numbers together don't parse date
+    # assuming most people won't burry dates in strings like this
+    def test_numberstring(self):
+        text = "12837.1230120"
+        print "text:", text
+        dates = extract_dates(text, debug=True)
+        self.assertEqual(len(dates), 0)
+
+    def test_message(self):
+        text = "<128937012837.12301209391023.daniel@firstdraftgis.com> Date: Wed, 16 May 2001 17:41:00 -0500 (PDT)"
+        print("test_message text is " + str([text]))
+        dates = extract_dates(text, debug=True)
+        self.assertEqual(len(dates), 1)
+        self.assertEqual(str(dates[0]), "2001-05-16 00:00:00+00:00")
+
+    def test_example(self):
+        text = "I arrived in that city on January 4, 1937"
+        print("text: " + str([text]))
+        dates = extract_dates(text)
+        self.assertEqual(len(dates), 1)
+        self.assertEqual(str(dates[0]), "1937-01-04 00:00:00+00:00")
+
     def test_normalization(self):
         self.assertEqual(str(g("12/23/09")), "2009-12-23 00:00:00+00:00")
 
-    def test_year(self):
+    def test_year1(self):
         self.assertEqual(str(g("2015-11-21")),'2015-01-01 00:00:00+00:00')
 
     def test_arabic(self):
@@ -42,7 +72,10 @@ class TestStringMethods(unittest.TestCase):
 
     def test_year_by_itself(self):
         text = "President Obama has used Oval Office speeches sparingly, compared with previous presidents. His previous two addresses, both in 2010, covered the Deepwater Horizon oil spill and the end of combat operations in Iraq."
-        self.assertEqual(str(g(text)), '2010-01-01 00:00:00+00:00')
+        print "text:", text
+        dates = extract_dates(text, debug=True)
+        self.assertEqual(len(dates), 1)
+        self.assertEqual(str(dates[0]), '2010-01-01 00:00:00+00:00')
 
     def test_mdyt(self):
         text = "9/1/99 22:00"
@@ -62,13 +95,14 @@ class TestStringMethods(unittest.TestCase):
 
         for source, expected in source_expected:
             #print "sourece:", source
-            extracted_as_list = (extract_dates(source) or [None])[0]
+            extracted_as_list = (extract_dates(source, debug=True) or [None])[0]
             #print "extracted_as_list:", extracted_as_list
             self.assertEqual(str(extracted_as_list), expected)
 
             extracted_as_single = extract_date(source)
             #print "extracted_as_single:", extracted_as_single
             self.assertEqual(str(extracted_as_single), expected)
+
 
 
 if __name__ == '__main__':

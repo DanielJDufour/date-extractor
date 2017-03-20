@@ -98,7 +98,24 @@ elif python_version == 3:
 years = _years_as_strings + [y[-2:] for y in _years_as_strings]
 
 nots = []
-for y in range(int(str(current_year+2)[-2:]), 85):
+for short_y in range( int(str(current_year+2)[-2:]) + 2, 85):
     for m in range(1, 10):
         for d in range(1, 10):
-            nots.append(str(y) + str(m) + str(d))
+            nots.append(str(short_y) + str(m) + str(d))
+
+hours = []
+for n in range(0, 10):
+    hours.append("0" + str(n))
+for n in range(10, 24):
+    hours.append(str(n))
+
+minutes = []
+for n in range(0, 10):
+    minutes.append("0" + str(n))
+for n in range(10, 60):
+    minutes.append(str(n)) 
+
+times = []
+for hour in hours:
+    for minute in minutes:
+        times.append(hour + ":" + minute)
