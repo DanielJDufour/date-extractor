@@ -10,7 +10,7 @@ class TestStringMethods(unittest.TestCase):
 
     def test_with_hours(self):
         text = "January 4, 2015 17:47"
-        print "text:", text
+        print("text: " + text)
         dates = extract_dates(text, debug=True)
         self.assertEqual(len(dates), 1)
         self.assertEqual(str(dates[0]), "2015-01-04 00:00:00+00:00")
@@ -20,7 +20,7 @@ class TestStringMethods(unittest.TestCase):
     # assuming most people won't burry dates in strings like this
     def test_numberstring(self):
         text = "12837.1230120"
-        print "text:", text
+        print("text: " + text)
         dates = extract_dates(text, debug=True)
         self.assertEqual(len(dates), 0)
 
