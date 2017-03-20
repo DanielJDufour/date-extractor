@@ -72,7 +72,7 @@ class TestStringMethods(unittest.TestCase):
 
     def test_year_by_itself(self):
         text = "President Obama has used Oval Office speeches sparingly, compared with previous presidents. His previous two addresses, both in 2010, covered the Deepwater Horizon oil spill and the end of combat operations in Iraq."
-        print "text:", text
+        print("text: " + text)
         dates = extract_dates(text, debug=True)
         self.assertEqual(len(dates), 1)
         self.assertEqual(str(dates[0]), '2010-01-01 00:00:00+00:00')
