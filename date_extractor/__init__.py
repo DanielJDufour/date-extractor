@@ -115,37 +115,55 @@ def generate_patterns():
 global patterns
 generate_patterns()
 
-def datetime_from_dict(match, debug=False):
-
-    if debug: print("starting datetime_from_dict with " + str(match))
-
-    month = match.get('month', 1)
-    if isinstance(month, int):
-        pass
-    elif month.isdigit():
-        month = int(month)
-    else:
-        month = month_to_number[month.title()]
+def datetime_from_dict(match, debug=False, default_hour=0, default_minute=0, default_second=0, return_precision=False):
 
     try:
-        day = int(match.get("day", 1))
-    except Exception as e:
-        #print "exception is", e
-        pass
 
-    try:
-        year = normalize_year(match["year"], debug=debug)
-        #print "year", year 
-    except Exception as e:
-        #print e
-        pass
+        if debug: print("starting datetime_from_dict with " + str(match))
 
-    try:
-        return datetime(year, month, day, tzinfo=tzinfo)
-    except Exception as e:
-        #print e
-        pass
+        month = match.get('month', None)
+        if month:
+            precision = "month"
+        else:
+            month = 1
+            precision = "year"
+        if isinstance(month, int):
+            pass
+        elif month.isdigit():
+            month = int(month)
+        else:
+            month = month_to_number[month.title()]
 
+        try:
+            day = match.get("day", None)
+            if day:
+                precision = "day"
+                day = int(day)
+            else:
+                day = 1
+        except Exception as e:
+            #print "exception is", e
+            pass
+
+        try:
+            year = normalize_year(match["year"], debug=debug)
+            #print "year", year 
+        except Exception as e:
+            #print e
+            pass
+
+        try:
+            new_date_time = datetime(year, month, day, default_hour, default_minute, default_second, tzinfo=tzinfo)
+            if return_precision:
+                return (new_date_time, precision)
+            else:
+                return new_date_time
+        except Exception as e:
+            #print e
+            pass
+
+    except Exception as e:
+        print e
 
 def is_date_in_list(date, list_of_dates):
     return any((are_dates_same(date, d) for d in list_of_dates))
@@ -162,7 +180,7 @@ def remove_duplicates(seq):
     seen_add = seen.add
     return [ x for x in seq if not (x in seen or seen_add(x))]
  
-def extract_dates(text, sorting=None, debug=False):
+def extract_dates(text, sorting=None, debug=False, default_hour=0, default_minute=0, default_second=0, return_precision=False):
     global patterns
 
     # convert to unicode if the text is in a bytestring
@@ -203,13 +221,16 @@ def extract_dates(text, sorting=None, debug=False):
     results = []
     for d in completes + partials:
         try:
-            results.append(datetime_from_dict(d, debug))
+            results.append(datetime_from_dict(d, debug, default_hour, default_minute, default_second, return_precision))
         except ValueError as e:
             pass
 
     if sorting:
         counter = Counter(results)
-        results = remove_duplicates(sorted(results, key = lambda x: (counter[x], x.toordinal()), reverse=True))
+        if return_precision:
+            results = remove_duplicates(sorted(results, key = lambda x: (counter[x[1]], x[1].toordinal()), reverse=True))
+        else:
+            results = remove_duplicates(sorted(results, key = lambda x: (counter[x], x.toordinal()), reverse=True))
 
     #average_date = mean([d for d in completes])
 
@@ -218,7 +239,7 @@ def extract_dates(text, sorting=None, debug=False):
     return results
 e=extract_dates
 
-def getFirstDateFromText(text, debug=False):
+def getFirstDateFromText(text, debug=False, default_hour=0, default_minute=0, default_second=0, return_precision=False):
     #print("starting getFirstDateFromText")
     global patterns
 
@@ -236,7 +257,7 @@ def getFirstDateFromText(text, debug=False):
                 match = dict((k.split("_")[0], num(v)) for k, v in match.groupdict().iteritems() if num(v))
             elif python_version == 3:
                 match = dict((k.split("_")[0], num(v)) for k, v in match.groupdict().items() if num(v))
-            return datetime_from_dict(match, debug)
+            return datetime_from_dict(match, debug, default_hour, default_minute, default_second, return_precision)
     #print "finishing getFirstDateFromText"
 
 # the date of a webpage, like a blog or article, will often be the first date mentioned

@@ -103,6 +103,44 @@ class TestStringMethods(unittest.TestCase):
             #print "extracted_as_single:", extracted_as_single
             self.assertEqual(str(extracted_as_single), expected)
 
+    def test_default_dates(self):
+
+        source = 'In year 2011 the incident happened.'
+        date = extract_dates(source)[0]
+        expected = '2011-01-01 00:00:00+00:00'
+        self.assertEqual(str(date), str(expected))
+        date = extract_date(source)
+        self.assertEqual(str(date), str(expected))
+
+        source = 'In year 2011 the incident happened.'
+        date = extract_dates(source, default_hour=12, default_minute=14, default_second=12)[0]
+        expected = '2011-01-01 12:14:12+00:00'
+        self.assertEqual(str(date), expected)
+        date = extract_date(source, default_hour=12, default_minute=14, default_second=12)
+        self.assertEqual(str(date), expected)
+
+
+        source = 'In year 2011 the incident happened.'
+        date, precision = extract_date(source, return_precision=True)
+        expected = '2011-01-01 00:00:00+00:00'
+        self.assertEqual(str(date), expected)
+        self.assertEqual(precision, "year")
+
+        source = 'In 2 Jan 2011 the incident happened.'
+        date, precision = extract_date(source, return_precision=True)
+        expected = '2011-01-02 00:00:00+00:00'
+        self.assertEqual(str(date), expected)
+        self.assertEqual(precision, "day")
+
+        #'In 2nd Jan 2011 the incident happened.'
+        source = 'In Mar 2011 the incident happened.'
+        date, precision = extract_date(source, return_precision=True)
+        expected = '2011-03-01 00:00:00+00:00'
+        self.assertEqual(str(date), expected)
+        self.assertEqual(precision, "month")
+
+
+
 
 
 if __name__ == '__main__':

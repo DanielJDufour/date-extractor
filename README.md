@@ -20,6 +20,15 @@ text = "I arrived in that city on January 4, 1937"
 dates = extract_dates(text)
 ```
 
+# Returning Precision
+```
+from date_extractor import extract_date
+text = "I arrived in that city in 1937"
+date, precision = extract_date(text, return_precision=True)
+# precision = 'year'
+```
+
+
 # Features
 | Languages Supported |
 | ------------------- |
