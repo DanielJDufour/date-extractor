@@ -163,7 +163,7 @@ def datetime_from_dict(match, debug=False, default_hour=0, default_minute=0, def
             pass
 
     except Exception as e:
-        print e
+        print(e)
 
 def is_date_in_list(date, list_of_dates):
     return any((are_dates_same(date, d) for d in list_of_dates))
