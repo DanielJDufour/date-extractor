@@ -92,7 +92,7 @@ def generate_patterns():
     # matches the year as two digits or four
     # tried to match the four digits first
     # (?!, \d{2,4}) makes sure it doesn't pick out 23 as the year in January 23, 2015
-    patterns['year'] = u"(?P<year>" + patterns['years'] + u")"
+    patterns['year'] = u"(?P<year>" + patterns['years'] + u")" + "(?!th)"
 
     patterns['dmy'] = u"(?<!\d{2}:)" + u"(?<!\d)" + u"(?P<dmy>" + patterns['day'].replace("day", "day_dmy") + patterns['punctuation'].replace("punctuation","punctuation_dmy") + patterns['month'].replace("month","month_dmy") + patterns['punctuation_second'].replace("punctuation","punctuation_dmy") + patterns['year'].replace("year", "year_dmy") + u")" + u"(?!-\d{1,2})" + "(?<!" + patterns['times'] + ")"
 
@@ -107,7 +107,6 @@ def generate_patterns():
     # just the year
     # avoiding 32 december 2017
     patterns['y'] = u"(?<!\d{2}:)" + "(?<!\d)" + "(?<!" + patterns['months_last_three_letters'] + patterns['punctuation_fixed_width'] + ")" +  u"(?P<y>" + patterns['year'].replace("year","year_y") + u")" + "(?!" + patterns['punctuation_fixed_width'] + patterns['months_abbreviated'] + ")" + u"(?!\d)" + u"(?!:\d{2})"
-
     patterns['date'] = date = u"(?P<date>" + patterns['mdy'] + "|" + patterns['dmy'] + "|" + patterns['ymd'] + "|" + patterns['my'] + "|" + patterns['y'] + u")"
 
     patterns['date_compiled'] = re.compile(date, flags)
