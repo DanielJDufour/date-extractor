@@ -28,13 +28,25 @@ days_of_the_month_as_ordinal = [__ordinal(n) for n in range(1,32)]
 
 months_verbose = ["January","Febuary","February","March","April","May","June","July","August","September","October","November","December"]
 
-#for language in ("arabic", "french", "kurdish", "turkish"):
-for language in ["arabic"]:
-    with open(dirpath + "/data/months_verbose/" + language + ".txt") as f:
-        if python_version == 2:
-            months_verbose += [line.strip().split(">")[0].strip() for line in f.read().decode("utf-8").split("\n") if line and not line.startswith("#")]
-        elif python_version == 3:
-            months_verbose += [line.strip().split(">")[0].strip() for line in f.read().split("\n") if line and not line.startswith("#")]
+for language in ("arabic", "french", "sorani", "turkish"):
+    if python_version == 2:
+        with open(dirpath + "/data/months_verbose/" + language + ".txt") as f:
+            for line in f:
+                try:
+                    line = line.decode("utf-8").strip()
+                    if line and not line.startswith("#"):
+                        months_verbose.append(line.split(">")[0].strip())
+                except Exception as e:
+                    print("[date-extractor] caught exception: " + str(e))
+    elif python_version == 3:
+        with open(dirpath + "/data/months_verbose/" + language + ".txt", encoding="utf-8") as f:
+            for line in f:
+                try:
+                    line = line.strip()
+                    if line and not line.startswith("#"):
+                        months_verbose.append(line.split(">")[0].strip())
+                except Exception as e:
+                    print("[date-extractor] caught exception: " + str(e))
 
 months_last_three_letters = [month[-3:] if len(month[-3:]) == 3 else " " + month[-2:] for month in months_verbose]
 
@@ -75,16 +87,29 @@ month_to_number = {
         "December": 12
         }
 
-for language in ["arabic"]:
-    with open(dirpath + "/data/months_verbose/" + language + ".txt") as f:
-        if python_version == 2:
-            lines = f.read().decode("utf-8").split("\n")
-        elif python_version == 3:
-            lines = f.read().split("\n")
-        for line in lines:
-            if line and not line.startswith("#"):
-                split = line.strip().split(">")
-                month_to_number[split[0].strip()] = split[1].strip()
+for language in ("arabic", "french", "sorani", "turkish"):
+
+
+    if python_version == 2:
+        with open(dirpath + "/data/months_verbose/" + language + ".txt") as f:
+            for line in f:
+                try:
+                    line = line.decode("utf-8").strip()
+                    if line and not line.startswith("#"):
+                        splat = line.split(">")
+                        month_to_number[splat[0].strip()] = splat[1].strip()
+                except Exception as e:
+                    print("[date-extractor] caught exception: " + str(e))
+    elif python_version == 3:
+        with open(dirpath + "/data/months_verbose/" + language + ".txt", encoding="utf-8") as f:
+            for line in f:
+                try:
+                    line = line.strip()
+                    if line and not line.startswith("#"):
+                        splat = line.split(">")
+                        month_to_number[splat[0].strip()] = splat[1].strip()
+                except Exception as e:
+                    print("[date-extractor] caught exception: " + str(e))
 
 current_year = date.today().year
 

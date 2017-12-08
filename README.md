@@ -44,6 +44,11 @@ To test the package run
 python -m unittest date_extractor.tests.test
 ```
 
+If you are using Python 3, you may need to run the following to test
+```
+python3 -m unittest date_extractor.tests.test
+```
+
 # Versions
 Works on Python 2 and 3!
 
