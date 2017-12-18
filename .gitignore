@@ -56,6 +56,8 @@ docs/_build/
 # PyBuilder
 target/
 
-# Other
-*swo*
-*swp*
+# Swap files
+*.sw*
+
+# Gedit Files
+*.txt~
