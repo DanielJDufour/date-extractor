@@ -9,7 +9,6 @@ date-extractor helps you extract dates from text
 
 # Installation
 ```
-pip install pytz
 pip install date-extractor
 ```
 
@@ -18,6 +17,7 @@ pip install date-extractor
 from date_extractor import extract_dates
 text = "I arrived in that city on January 4, 1937"
 dates = extract_dates(text)
+# [datetime.datetime(1937, 1, 4, 0, 0, tzinfo=<UTC>)]
 ```
 
 # Returning Precision
