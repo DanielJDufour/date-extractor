@@ -52,5 +52,5 @@ python3 -m unittest date_extractor.tests.test
 # Versions
 Works on Python 2 and 3!
 
-# Users
-If you use date-extractor and don't mind sharing that, let us know and we can note it on the Readme.  It will be helpful for potential users to see how people are using it.
+# Support
+Contact Daniel Dufour at daniel.j.dufour@gmail.com
