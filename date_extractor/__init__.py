@@ -100,7 +100,7 @@ def generate_patterns():
 
 
     #we don't include T in the exclusion at end because sometimes T comes before hours and minutes
-    patterns['ymd'] = u"(?<![\dA-Za-z])" + u"(?P<ymd>" + patterns['year'].replace("year","year_ymd") + patterns['punctuation'].replace("punctuation","punctuation_ymd") + patterns['month'].replace("month","month_ymd") + patterns['punctuation_second'].replace("punctuation","punctuation_ymd") + patterns['day'].replace("day","day_ymd") + u")" + "(?<![^\d]\d{4})" + u"(?!-\d{1,2}-\d{1,2})(?![\dABCDEFGHIJKLMNOPQRSUVWXYZabcdefghijklmnopqrsuvwxyz])" + "(?<!" + patterns['nots'] + ")" + "(?<!" + patterns['times'] + ")"
+    patterns['ymd'] = u"(?<![\d])" + u"(?P<ymd>" + patterns['year'].replace("year","year_ymd") + patterns['punctuation'].replace("punctuation","punctuation_ymd") + patterns['month'].replace("month","month_ymd") + patterns['punctuation_second'].replace("punctuation","punctuation_ymd") + patterns['day'].replace("day","day_ymd") + u")" + "(?<![^\d]\d{4})" + u"(?!-\d{1,2}-\d{1,2})(?![\dABCDEFGHIJKLMNOPQRSUVWXYZabcdefghijklmnopqrsuvwxyz])" + "(?<!" + patterns['nots'] + ")" + "(?<!" + patterns['times'] + ")"
 
     patterns['my'] = u"(?<!\d{3})" + u"(?<!32 )" + u"(?P<my>" + patterns['month'].replace("month","month_my") + patterns['punctuation_nocomma'] + patterns['year'].replace("year","year_my") + u")"
 

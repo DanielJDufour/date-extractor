@@ -143,6 +143,16 @@ class TestStringMethods(unittest.TestCase):
         source = "He was selected by the Sacramento Kings in the 2nd round (48th overall) of the 2004 NBA_Draft. A 6'4' guard from Morehead State University, Minard was signed by the Kings in July 2004, but they waived him in November the same year, and so far he has never appeared in an NBA game."
         dates = extract_dates(source, debug=True)
         self.assertEqual(len(dates), 2)
+    
+    def test_date_next_to_text(self):
+        source = "some_text_20140205"
+        date = extract_date(source, debug=True)
+        self.assertEqual(str(date), "2014-02-05 00:00:00+00:00")
+
+        source = "some_text20140205"
+        date = extract_date(source, debug=True)
+        self.assertEqual(str(date), "2014-02-05 00:00:00+00:00")
+
 
 
 
