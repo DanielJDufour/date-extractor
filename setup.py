@@ -1,5 +1,6 @@
-from distutils.core import setup
+from setuptools import setup
 from os import path
+from settings import version
 
 this_directory = path.abspath(path.dirname(__file__))
 
@@ -11,7 +12,7 @@ setup(
   packages = ['date_extractor'],
   package_dir = {'date_extractor': 'date_extractor'},
   package_data = {'date_extractor': ['arabic.py', 'enumerations.py', '__init__.py', 'data/months_verbose/arabic.txt', 'data/months_verbose/french.txt', 'data/months_verbose/sorani.txt', 'data/months_verbose/turkish.txt', 'tests/__init__.py', 'tests/test.py']},
-  version = '4.0.3',
+  version = version,
   description = 'Extract dates from text',
   long_description = long_description,
   long_description_content_type='text/markdown',
