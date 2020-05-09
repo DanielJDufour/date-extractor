@@ -1,0 +1,42 @@
+# Modern Names
+正月 > 1
+zhēngyuè > 1
+zhengyue > 1
+二月 > 2
+èryuè > 2
+eryue > 2
+三月 > 3
+sānyuè > 3
+sanyue > 3
+四月 > 4
+sìyuè > 4
+siyue > 4
+五月 > 5
+wǔyuè > 5
+wuyue > 5
+六月 > 6
+liùyuè > 6
+liuyue > 6
+七月 > 7
+qīyuè > 7
+qiyue > 7
+八月 > 8
+bāyuè > 8
+bayue > 8
+九月 > 9
+jiǔyuè > 9
+jiuyue > 9
+十月 > 10
+shíyuè > 10
+shiyue > 10
+十一月 > 11
+shíyīyuè > 11
+shiyiyue > 11
+臘月 > 12
+腊月 > 12
+làyuè > 12
+layue > 12
+
+# Earthly Branch Names
+
+# Phenological Names
