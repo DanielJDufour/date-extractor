@@ -13,7 +13,7 @@ setup(
   name = 'date-extractor',
   packages = ['date_extractor'],
   package_dir = {'date_extractor': 'date_extractor'},
-  package_data = {'date_extractor': ['arabic.py', 'enumerations.py', '__init__.py', 'data/months_verbose/arabic.txt', 'data/months_verbose/french.txt', 'data/months_verbose/sorani.txt', 'data/months_verbose/turkish.txt', 'tests/__init__.py', 'tests/test.py']},
+  package_data = {'date_extractor': ['arabic.py', 'enumerations.py', '__init__.py', 'data/months_verbose/arabic.txt', 'data/months_verbose/chinese.txt', 'data/months_verbose/french.txt', 'data/months_verbose/sorani.txt', 'data/months_verbose/turkish.txt', 'tests/__init__.py', 'tests/test.py']},
   version = version,
   description = 'Extract dates from text',
   long_description = long_description,
@@ -30,5 +30,5 @@ setup(
     'License :: OSI Approved :: Apache Software License',
     'Operating System :: OS Independent',
   ],
-  install_requires=["pytz"]
+  install_requires=["pytz", "regex"]
 )

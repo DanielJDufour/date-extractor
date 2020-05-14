@@ -3,15 +3,32 @@
 from sys import version_info
 python_version = version_info.major
 
-import unittest
+from unittest import TestCase
 from date_extractor import *
 
-class TestStringMethods(unittest.TestCase):
+"""
+class TimeZone(TestCase):
+    def test_date_with_timezone(self):
+        text = "Publication date 11 April 2019 | 13:46 ICT"
+        date = extract_date(text, debug=True)
+        self.assertEqual(str(date), "2019-04-11 00:00:00+")
+"""
+
+class ChineseTest(TestCase):
+    def test_taiwan_times(self):
+        text = "壹、開會時間：109 年 3 月 27 日下午 2 時 0 分正"
+        dates = extract_dates(text, debug=False)
+        self.assertEqual(str(dates), '[datetime.datetime(2020, 3, 27, 0, 0, tzinfo=<UTC>)]')
+    def test_chinese_times(self):
+        text = "2006年1月29日"
+        dates = extract_dates(text, debug=False)
+        self.assertEqual(str(dates), '[datetime.datetime(2006, 1, 29, 0, 0, tzinfo=<UTC>)]')
+
+class TestStringMethods(TestCase):
 
     def test_with_hours(self):
         text = "January 4, 2015 17:47"
-        print("text: " + text)
-        dates = extract_dates(text, debug=True)
+        dates = extract_dates(text, debug=False)
         self.assertEqual(len(dates), 1)
         self.assertEqual(str(dates[0]), "2015-01-04 00:00:00+00:00")
 
@@ -20,20 +37,17 @@ class TestStringMethods(unittest.TestCase):
     # assuming most people won't burry dates in strings like this
     def test_numberstring(self):
         text = "12837.1230120"
-        print("text: " + text)
-        dates = extract_dates(text, debug=True)
+        dates = extract_dates(text, debug=False)
         self.assertEqual(len(dates), 0)
 
     def test_message(self):
         text = "<128937012837.12301209391023.daniel@firstdraftgis.com> Date: Wed, 16 May 2001 17:41:00 -0500 (PDT)"
-        print("test_message text is " + str([text]))
-        dates = extract_dates(text, debug=True)
+        dates = extract_dates(text, debug=False)
         self.assertEqual(len(dates), 1)
         self.assertEqual(str(dates[0]), "2001-05-16 00:00:00+00:00")
 
     def test_example(self):
         text = "I arrived in that city on January 4, 1937"
-        print("text: " + str([text]))
         dates = extract_dates(text)
         self.assertEqual(len(dates), 1)
         self.assertEqual(str(dates[0]), "1937-01-04 00:00:00+00:00")
@@ -72,15 +86,13 @@ class TestStringMethods(unittest.TestCase):
 
     def test_year_by_itself(self):
         text = "President Obama has used Oval Office speeches sparingly, compared with previous presidents. His previous two addresses, both in 2010, covered the Deepwater Horizon oil spill and the end of combat operations in Iraq."
-        print("text: " + text)
-        dates = extract_dates(text, debug=True)
+        dates = extract_dates(text, debug=False)
         self.assertEqual(len(dates), 1)
         self.assertEqual(str(dates[0]), '2010-01-01 00:00:00+00:00')
 
     def test_mdyt(self):
         text = "9/1/99 22:00"
         self.assertEqual(str(g(text)), "1999-09-01 00:00:00+00:00")
-
 
     def test_future_dates(self):
         source_expected = [
@@ -95,7 +107,7 @@ class TestStringMethods(unittest.TestCase):
 
         for source, expected in source_expected:
             #print "sourece:", source
-            extracted_as_list = (extract_dates(source, debug=True) or [None])[0]
+            extracted_as_list = (extract_dates(source, debug=False) or [None])[0]
             #print "extracted_as_list:", extracted_as_list
             self.assertEqual(str(extracted_as_list), expected)
 
@@ -141,16 +153,16 @@ class TestStringMethods(unittest.TestCase):
 
     def test_non_dates(self):
         source = "He was selected by the Sacramento Kings in the 2nd round (48th overall) of the 2004 NBA_Draft. A 6'4' guard from Morehead State University, Minard was signed by the Kings in July 2004, but they waived him in November the same year, and so far he has never appeared in an NBA game."
-        dates = extract_dates(source, debug=True)
+        dates = extract_dates(source, debug=False)
         self.assertEqual(len(dates), 2)
     
     def test_date_next_to_text(self):
         source = "some_text_20140205"
-        date = extract_date(source, debug=True)
+        date = extract_date(source, debug=False)
         self.assertEqual(str(date), "2014-02-05 00:00:00+00:00")
 
         source = "some_text20140205"
-        date = extract_date(source, debug=True)
+        date = extract_date(source, debug=False)
         self.assertEqual(str(date), "2014-02-05 00:00:00+00:00")
 
 
