@@ -1,7 +1,6 @@
 language: python
 
 python:
-    - "2.7"
     - "3.5"
     - "3.5"
     - "3.6"
@@ -11,4 +10,4 @@ notifications:
     email:
         - daniel.j.dufour@gmail.com
 
-script: python -m unittest date_extractor.tests.test
+script: python3 -m unittest date_extractor.tests.test
