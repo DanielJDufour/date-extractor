@@ -13,16 +13,26 @@ pip3 install date-extractor
 ```
 
 # Use
-```
+```python
 from date_extractor import extract_dates
+
 text = "I arrived in that city on January 4, 1937"
 dates = extract_dates(text)
 # [datetime.datetime(1937, 1, 4, 0, 0, tzinfo=<UTC>)]
 ```
 
-# Returning Precision
-```
+Date extractor also works on dates with hours, minutes and seconds:
+```python
 from date_extractor import extract_date
+
+date = extract_date("2018-06-07 16:31:54")
+# datetime.datetime(2018, 6, 7, 16, 31, 54, tzinfo=<UTC>)
+```
+
+# Returning Precision
+```python
+from date_extractor import extract_date
+
 text = "I arrived in that city in 1937"
 date, precision = extract_date(text, return_precision=True)
 # precision = 'year'
