@@ -13,9 +13,9 @@ setup(
     package_dir={"date_extractor": "date_extractor"},
     package_data={
         "date_extractor": [
-            "arabic.py",
-            "enumerations.py",
             "__init__.py",
+            "enumerations/__init__.py",
+            "enumerations/arabic.py",
             "data/days_of_the_month/english.txt",
             "data/days_of_the_week/full/english.txt",
             "data/days_of_the_week/short/english.txt",
@@ -29,7 +29,7 @@ setup(
             "tests/test.py",
         ]
     },
-    version="5.1.0",
+    version="5.1.1",
     description="Extract dates from text",
     long_description=long_description,
     long_description_content_type="text/markdown",
