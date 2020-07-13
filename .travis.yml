@@ -1,5 +1,7 @@
 language: python
 
+install: pipenv install
+
 python:
     - "3.5"
     - "3.5"
@@ -10,4 +12,4 @@ notifications:
     email:
         - daniel.j.dufour@gmail.com
 
-script: python3 -m unittest date_extractor.tests.test
+script: pipenv run python3 -m unittest date_extractor.tests.test
