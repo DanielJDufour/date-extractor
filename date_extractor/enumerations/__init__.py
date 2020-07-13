@@ -1,93 +1,28 @@
-from .arabic import toArabic as a
-from os.path import abspath, dirname
+from csv import DictReader
 from datetime import date
+from os.path import abspath, dirname, join
 
-dirpath = dirname(abspath(__file__))
+from .arabic import toArabic as a
 
-days_of_the_week_verbose = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Wenesday",
-    "Wendsday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-]
+rootdir = dirname(dirname(abspath(__file__)))
 
-days_of_the_week_abbreviated = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+datadir = join(rootdir, "data")
 
 # range generates a list of numbers from 1 to 31
 # map converts everthing in the list to unicode
 days_of_the_month_as_numbers = (
     list(map(str, list(reversed(range(1, 32)))))
-    + list(map(lambda n: u"0" + str(n), range(0, 10)))
+    + list(map(lambda n: "0" + str(n), range(0, 10)))
     + list(map(a, list(reversed(range(1, 32)))))
 )
 
 
-days_of_the_month_as_ordinal = [
-    "1st",
-    "1th",
-    "2nd",
-    "2th",
-    "3rd",
-    "3th",
-    "4th",
-    "5th",
-    "6th",
-    "7th",
-    "8th",
-    "9th",
-    "10th",
-    "11th",
-    "12th",
-    "13th",
-    "14th",
-    "15th",
-    "16th",
-    "17th",
-    "18th",
-    "19th",
-    "20th",
-    "21st",
-    "21th",
-    "22nd",
-    "22th",
-    "23rd",
-    "23th",
-    "24th",
-    "25th",
-    "26th",
-    "27th",
-    "28th",
-    "29th",
-    "30th",
-    "31st",
-    "31th",
-]
+with open(join(datadir, "days_of_the_month/ordinal/english.txt")) as f:
+    days_of_the_month_as_ordinal = [ln["text"] for ln in DictReader(f) if ln["text"]]
 
-months_verbose = [
-    "January",
-    "Febuary",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-]
-
-for language in ("arabic", "chinese", "french", "sorani", "turkish"):
-    with open(
-        dirpath + "/data/months_verbose/" + language + ".txt", encoding="utf-8"
-    ) as f:
+months_verbose = []
+for language in ["english", "arabic", "chinese", "french", "sorani", "turkish"]:
+    with open(join(datadir, f"months_verbose/{language}.txt")) as f:
         for line in f:
             try:
                 line = line.strip()
@@ -119,7 +54,7 @@ months_abbreviated = [
 # map converts everthing in the list to unicode
 months_as_numbers = (
     list(map(str, range(1, 13)))
-    + list(map(lambda n: u"0" + str(n), range(0, 10)))
+    + list(map(lambda n: "0" + str(n), range(0, 10)))
     + list(map(a, range(1, 13)))
 )
 
@@ -152,9 +87,7 @@ month_to_number = {
 }
 
 for language in ("arabic", "chinese", "french", "sorani", "turkish"):
-    with open(
-        dirpath + "/data/months_verbose/" + language + ".txt", encoding="utf-8"
-    ) as f:
+    with open(join(datadir, f"months_verbose/{language}.txt")) as f:
         for line in f:
             try:
                 line = line.strip()
@@ -168,8 +101,8 @@ current_year = date.today().year
 
 current_year_abbreviated = int(str(current_year)[-2:])
 
-_years_as_numbers = range(1900, current_year + 200)
-_years_as_strings = list(map(str, _years_as_numbers)) + list(map(a, _years_as_numbers))
+years_as_numbers = range(1900, current_year + 200)
+_years_as_strings = list(map(str, years_as_numbers)) + list(map(a, years_as_numbers))
 years = _years_as_strings + [y[-2:] for y in _years_as_strings]
 
 tw_years = list(map(str, range(0, current_year - 1912 + 2 + 100)))
@@ -192,12 +125,11 @@ for n in range(0, 10):
 for n in range(10, 60):
     minutes.append(str(n))
 
-
-minutes = []
+seconds = []
 for n in range(0, 10):
-    minutes.append("0" + str(n))
+    seconds.append("0" + str(n))
 for n in range(10, 60):
-    minutes.append(str(n))
+    seconds.append(str(n))
 
 times = []
 for hour in hours:

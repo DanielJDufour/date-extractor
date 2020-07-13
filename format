@@ -1,0 +1,7 @@
+#!/bin/sh -e
+
+pipenv run isort setup.py
+pipenv run isort date_extractor
+
+pipenv run black setup.py
+pipenv run black date_extractor

@@ -1,0 +1,15 @@
+index,name
+0,Sunday
+0,Sonday
+1,Monday
+1,Munday
+2,Tuesday
+2,Tusday
+3,Wednesday
+3,Wenesday
+3,Wendsday
+4,Thursday
+5,Friday
+5,Frday
+6,Saturday
+6,Saturnday

@@ -1,9 +1,11 @@
+import re
 from collections import Counter
 from datetime import date, datetime
-from . import enumerations
+
 import pytz
 import regex
-import re
+
+from . import enumerations
 
 flags = re.IGNORECASE | re.MULTILINE | re.UNICODE
 
@@ -220,9 +222,24 @@ def generate_patterns():
         + " ?日 ?"
     )
 
+    iso_years = "|".join(map(str, range(1900, current_year + 200)))
+    iso_months = "|".join([str(n).zfill(2) for n in range(1, 13)])
+    iso_days = "|".join([str(n).zfill(2) for n in range(1, 32)])
+    iso_hours = "|".join([str(n).zfill(2) for n in range(0, 24)])
+    iso_minutes = "|".join([str(n).zfill(2) for n in range(0, 60)])
+    iso_seconds = "|".join([str(n).zfill(2) for n in range(0, 60)])
+
+    p["iso"] = (
+        f"(?P<year>{iso_years})-(?P<month>{iso_months})-(?P<day>{iso_days})"
+        + "[ T]"
+        + f"(?P<hour>{iso_hours}):(?P<minute>{iso_minutes}):(?P<second>{iso_seconds})"
+    )
+
     p["date"] = (
         "(?P<date>"
-        + "|".join([p["chinese"], p["mdy"], p["dmy"], p["ymd"], p["my"], p["y"]])
+        + "|".join(
+            [p["iso"], p["chinese"], p["mdy"], p["dmy"], p["ymd"], p["my"], p["y"]]
+        )
         + ")"
     )
     p["date_compiled"] = regex.compile(p["date"], flags)
@@ -283,14 +300,23 @@ def datetime_from_dict(
             pass
 
         try:
+            hour = int(match["hour"])
+        except Exception as e:
+            hour = default_hour
+
+        try:
+            minute = int(match["minute"])
+        except Exception as e:
+            minute = default_minute
+
+        try:
+            second = int(match["second"])
+        except Exception as e:
+            second = default_second
+
+        try:
             new_date_time = datetime(
-                year,
-                month,
-                day,
-                default_hour,
-                default_minute,
-                default_second,
-                tzinfo=tzinfo,
+                year, month, day, hour, minute, second, tzinfo=tzinfo,
             )
             if return_precision:
                 return (new_date_time, precision)
@@ -328,6 +354,7 @@ def extract_dates(
     default_minute=0,
     default_second=0,
     return_precision=False,
+    earliest_possible_year=1900,
 ):
     global patterns
 
@@ -411,6 +438,7 @@ def getFirstDateFromText(
     default_minute=0,
     default_second=0,
     return_precision=False,
+    earliest_possible_year=1900,
 ):
     # print("starting getFirstDateFromText")
     global patterns

@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from sys import version_info
-
-python_version = version_info.major
-
+import unittest
 from unittest import TestCase
+
 from date_extractor import *
 
 """
@@ -14,6 +12,18 @@ class TimeZone(TestCase):
         date = extract_date(text, debug=True)
         self.assertEqual(str(date), "2019-04-11 00:00:00+")
 """
+
+
+class TestTimeStamps(TestCase):
+    def test_spaced(self):
+        text = "2018-06-07 16:31:54"
+        date = extract_date(text, debug=False)
+        self.assertEqual(str(date), "2018-06-07 16:31:54+00:00")
+
+    def test_t_separated(self):
+        text = "2018-06-07T16:31:54"
+        date = extract_date(text, debug=False)
+        self.assertEqual(str(date), "2018-06-07 16:31:54+00:00")
 
 
 class ChineseTest(TestCase):
@@ -65,23 +75,13 @@ class TestStringMethods(TestCase):
         self.assertEqual(str(g("2015-11-21")), "2015-01-01 00:00:00+00:00")
 
     def test_arabic(self):
-        if python_version == 2:
-            text = "٢١ نوفمبر ٢٠١٥".decode("utf-8")
-            try:
-                self.assertEqual(str(g(text)), "2015-11-21 00:00:00+00:00")
-            except Exception as e:
-                print("FAILED ON text:", [text])
-                raise e
-        elif python_version == 3:
-            text = "٢١ نوفمبر ٢٠١٥"
-            self.assertEqual(str(g(text)), "2015-11-21 00:00:00+00:00")
+        text = "٢١ نوفمبر ٢٠١٥"
+        self.assertEqual(str(g(text)), "2015-11-21 00:00:00+00:00")
 
     def test_arabic2(self):
         text = """
         ٢١ تشرين ثاني/نوفمبر ٢٠١٥
         """
-        if python_version == 2:
-            text = text.decode("utf-8")
         self.assertEqual(str(g(text)), "2015-11-21 00:00:00+00:00")
 
     def test_year(self):

@@ -1,0 +1,15 @@
+index,text
+0,Sun
+0,Su
+1,Mon
+1,M
+2,Tue
+2,T
+3,Wed
+3,W
+4,Thu
+4,Th
+5,Fri
+5,Fr
+6,Sat
+6,Sa

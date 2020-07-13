@@ -9,6 +9,7 @@ verify_ssl = true
 regex = "*"
 pytz = "*"
 black = "*"
+isort = "*"
 
 [requires]
 python_version = "3.8"
