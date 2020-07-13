@@ -16,7 +16,7 @@ setup(
             "__init__.py",
             "enumerations/__init__.py",
             "enumerations/arabic.py",
-            "data/days_of_the_month/english.txt",
+            "data/days_of_the_month/ordinal/english.txt",
             "data/days_of_the_week/full/english.txt",
             "data/days_of_the_week/short/english.txt",
             "data/months_verbose/arabic.txt",
@@ -29,7 +29,7 @@ setup(
             "tests/test.py",
         ]
     },
-    version="5.1.1",
+    version="5.1.2",
     description="Extract dates from text",
     long_description=long_description,
     long_description_content_type="text/markdown",
