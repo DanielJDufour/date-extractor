@@ -1,0 +1,4 @@
+#!/bin/sh -e
+
+pipenv run python3 -m unittest date_extractor.tests.test
+
