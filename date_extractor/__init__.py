@@ -316,7 +316,13 @@ def datetime_from_dict(
 
         try:
             new_date_time = datetime(
-                year, month, day, hour, minute, second, tzinfo=tzinfo,
+                year,
+                month,
+                day,
+                hour,
+                minute,
+                second,
+                tzinfo=tzinfo,
             )
             if return_precision:
                 return (new_date_time, precision)

@@ -29,7 +29,7 @@ setup(
             "tests/test.py",
         ]
     },
-    version="5.1.2",
+    version="5.1.5",
     description="Extract dates from text",
     long_description=long_description,
     long_description_content_type="text/markdown",
