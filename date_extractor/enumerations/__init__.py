@@ -22,7 +22,7 @@ with open(join(datadir, "days_of_the_month/ordinal/english.txt")) as f:
 
 months_verbose = []
 for language in ["english", "arabic", "chinese", "french", "sorani", "turkish"]:
-    with open(join(datadir, f"months_verbose/{language}.txt")) as f:
+    with open(join(datadir, f"months_verbose/{language}.txt"), encoding="utf8") as f:
         for line in f:
             try:
                 line = line.strip()
@@ -87,7 +87,7 @@ month_to_number = {
 }
 
 for language in ("arabic", "chinese", "french", "sorani", "turkish"):
-    with open(join(datadir, f"months_verbose/{language}.txt")) as f:
+    with open(join(datadir, f"months_verbose/{language}.txt"), encoding="utf8") as f:
         for line in f:
             try:
                 line = line.strip()
