@@ -4,7 +4,6 @@ install: pipenv install
 
 python:
     - "3.5"
-    - "3.5"
     - "3.6"
     - "3.7"
 
